@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="eu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>He-Indartuz · Ikasleen jarraipena</title>
+<style>
+:root{
+  --cream:#fbf8f1;--paper:#fffdfa;--ink:#173e5d;--text:#25343f;--muted:#60717e;
+  --coral:#d96b57;--coral-soft:#f6ded8;--sage:#70a889;--sage-soft:#ddefe5;
+  --teal:#4f98a4;--teal-soft:#ddeff2;--purple:#8b72b5;--purple-soft:#eae3f4;
+  --mustard:#e7b94a;--mustard-soft:#fff1c9;--line:#d9dfdf;--danger:#b8473b;
+  --shadow:0 14px 38px rgba(23,62,93,.10)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--text);font:16px/1.48 Calibri,"Segoe UI",Arial,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.topline{height:7px;background:linear-gradient(90deg,var(--ink) 0 28%,var(--coral) 28% 46%,var(--mustard) 46% 62%,var(--sage) 62% 80%,var(--purple) 80%)}
+.wrap{width:min(1240px,calc(100% - 28px));margin:auto}
+header{padding:22px 0 16px}
+.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:20px;align-items:center;background:var(--paper);border:1px solid #e7e1d8;border-radius:26px;padding:24px;box-shadow:var(--shadow)}
+.kicker{font:700 12px/1 "Century Gothic",Calibri,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+h1,h2,h3,h4{font-family:"Century Gothic",Calibri,sans-serif;color:var(--ink);line-height:1.16}
+h1{font-size:clamp(30px,5vw,52px);margin:10px 0 9px;letter-spacing:-.035em}
+h1 span{color:var(--coral)}
+.lead{font-size:clamp(17px,2vw,20px);color:#405665;max-width:760px;margin:0}
+.hero-card{background:var(--ink);color:white;border-radius:20px;padding:20px}
+.hero-card h2{color:white;margin:0 0 8px;font-size:20px}.hero-card p{margin:0 0 12px}
+.flow{display:flex;flex-wrap:wrap;gap:6px}.flow span{border-radius:999px;padding:6px 9px;font-weight:700;font-size:12px;background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.24)}
+.toolbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:14px 0 0}
+.btn{appearance:none;border:0;border-radius:11px;padding:10px 14px;font:700 14px/1 "Century Gothic",Calibri,sans-serif;background:var(--coral);color:white;display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none;min-height:40px}
+.btn:hover{filter:brightness(.96)}.btn.secondary{background:white;color:var(--ink);border:1px solid var(--line)}.btn.teal{background:var(--teal)}.btn.ink{background:var(--ink)}.btn.danger{background:var(--danger)}.btn.small{padding:8px 10px;min-height:34px;font-size:13px}.btn:disabled{opacity:.45;cursor:not-allowed}
+.status-save{font-size:13px;color:var(--muted);margin-left:auto}.status-save.ok{color:#377a5c;font-weight:700}
+.appbar{position:sticky;top:0;z-index:20;background:rgba(251,248,241,.97);backdrop-filter:blur(10px);border-block:1px solid rgba(23,62,93,.10)}
+.appbar-inner{display:grid;grid-template-columns:minmax(210px,320px) 1fr;gap:12px;align-items:center;padding:9px 0}
+.group-pick{display:flex;gap:7px;align-items:center}.group-pick label{font-weight:700;color:var(--ink);white-space:nowrap}.group-pick select{min-width:0;flex:1}
+.tabs{display:flex;gap:6px;overflow:auto;justify-content:flex-end}.tab{white-space:nowrap;border:0;background:transparent;color:var(--ink);font-weight:700;border-radius:10px;padding:9px 11px}.tab.active,.tab:hover{background:white;box-shadow:0 2px 9px rgba(23,62,93,.09)}
+main{padding:22px 0 70px}
+.panel{display:none}.panel.active{display:block}
+.section{background:var(--paper);border:1px solid #e5dfd5;border-radius:22px;padding:22px;margin:0 0 16px;box-shadow:0 8px 24px rgba(23,62,93,.055)}
+.section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:15px}.section-head h2{margin:0 0 5px;font-size:clamp(22px,3vw,30px)}.section-head p{margin:0;color:var(--muted)}
+.title-row{display:flex;align-items:flex-start;gap:12px}.num{min-width:43px;height:43px;border-radius:13px;display:grid;place-items:center;color:white;font:700 15px/1 "Century Gothic",Calibri,sans-serif}.coral{background:var(--coral)}.teal-bg{background:var(--teal)}.sage{background:var(--sage)}.purple{background:var(--purple)}.mustard{background:#c99318}.ink-bg{background:var(--ink)}
+.grid2,.grid3,.grid4{display:grid;gap:13px}.grid2{grid-template-columns:repeat(2,1fr)}.grid3{grid-template-columns:repeat(3,1fr)}.grid4{grid-template-columns:repeat(4,1fr)}
+.card{background:white;border:1px solid var(--line);border-radius:16px;padding:15px}.card h3{font-size:17px;margin:0 0 8px}.card p{margin:0}.card.accent-teal{border-top:5px solid var(--teal)}.card.accent-coral{border-top:5px solid var(--coral)}.card.accent-sage{border-top:5px solid var(--sage)}.card.accent-purple{border-top:5px solid var(--purple)}
+.metric{font:700 clamp(26px,4vw,40px)/1 "Century Gothic",Calibri,sans-serif;color:var(--ink);margin:8px 0 4px}.metric-label{color:var(--muted);font-size:14px}
+.form-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}.field{grid-column:span 12}.field.half{grid-column:span 6}.field.third{grid-column:span 4}.field.quarter{grid-column:span 3}.field.two-thirds{grid-column:span 8}
+label.label{display:block;font-weight:700;color:var(--ink);margin:0 0 5px;font-size:14px}.req{color:var(--danger)}
+input,select,textarea{width:100%;border:1px solid #cbd5d7;border-radius:10px;background:white;color:var(--text);padding:10px 11px;min-height:42px}textarea{resize:vertical;min-height:82px}input:focus,select:focus,textarea:focus{outline:3px solid rgba(79,152,164,.20);border-color:var(--teal)}
+.help{font-size:13px;color:var(--muted);margin:5px 0 0}.error-text{font-size:13px;color:var(--danger);font-weight:700;margin:6px 0 0}
+.callout{border-left:5px solid var(--teal);background:var(--teal-soft);border-radius:10px;padding:13px 15px;margin:13px 0}.callout.yellow{border-color:var(--mustard);background:var(--mustard-soft)}.callout.green{border-color:var(--sage);background:var(--sage-soft)}.callout.coral{border-color:var(--coral);background:var(--coral-soft)}
+.empty{border:2px dashed #cbd5d7;border-radius:17px;text-align:center;padding:32px 18px;color:var(--muted);background:#fff}.empty h3{margin:0 0 7px}.empty p{margin:0 0 14px}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:15px;background:white}.table-wrap table{border-collapse:collapse;width:100%;min-width:860px}th,td{padding:10px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}th{background:var(--ink);color:white;font:700 13px/1.25 "Century Gothic",Calibri,sans-serif;position:sticky;top:0;z-index:1}tr:last-child td{border-bottom:0}tbody tr:hover{background:#fbfcfc}.table-wrap input,.table-wrap select{min-height:37px;padding:7px 8px;font-size:14px}.student-name{font-weight:700;color:var(--ink);min-width:150px}.muted{color:var(--muted)}.small-text{font-size:13px}
+.badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 8px;font-weight:700;font-size:12px;background:#eef2f3;color:var(--ink)}.badge.ok{background:var(--sage-soft);color:#2f6a4e}.badge.warn{background:var(--mustard-soft);color:#7d5b09}.badge.bad{background:var(--coral-soft);color:#873a2f}.badge.purple{background:var(--purple-soft);color:#5e4884}
+.week-tabs,.session-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:13px 0}.week-chip,.session-chip{border:1px solid var(--line);background:white;color:var(--ink);border-radius:999px;padding:8px 11px;font-weight:700}.week-chip.active,.session-chip.active{background:var(--ink);color:white;border-color:var(--ink)}
+.level-key{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0}.level-box{border-radius:13px;padding:11px;border:1px solid var(--line);background:white}.level-box b{display:block;color:var(--ink)}.level-box.l1{border-top:5px solid var(--coral)}.level-box.l2{border-top:5px solid var(--mustard)}.level-box.l3{border-top:5px solid var(--teal)}.level-box.l4{border-top:5px solid var(--purple)}
+.progressbar{height:9px;border-radius:999px;background:#e7eded;overflow:hidden;min-width:100px}.progressbar span{display:block;height:100%;background:var(--teal);border-radius:inherit}
+.student-list{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.student-button{border:1px solid var(--line);background:white;border-radius:13px;padding:11px;text-align:left;color:var(--ink);font-weight:700}.student-button.active{border-color:var(--teal);box-shadow:0 0 0 3px rgba(79,152,164,.16)}.student-button small{display:block;color:var(--muted);font-weight:400;margin-top:4px}
+.summary-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:13px 0}.summary-item{border-radius:14px;padding:12px;background:#f4f7f7}.summary-item b{display:block;font-size:20px;color:var(--ink)}.summary-item span{font-size:12px;color:var(--muted)}
+.toast{position:fixed;right:18px;bottom:18px;z-index:100;background:var(--ink);color:white;padding:12px 15px;border-radius:12px;box-shadow:var(--shadow);transform:translateY(120px);opacity:0;transition:.24s}.toast.show{transform:translateY(0);opacity:1}.toast.error{background:var(--danger)}
+.download-help{position:fixed;left:50%;bottom:18px;z-index:110;transform:translateX(-50%);width:min(560px,calc(100% - 28px));background:white;border:1px solid var(--line);border-left:6px solid var(--teal);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);display:none}.download-help.show{display:flex;align-items:center;gap:12px}.download-help p{margin:0;flex:1}.download-help a{white-space:nowrap}.download-help button{border:0;background:transparent;color:var(--muted);font-size:22px;padding:4px}
+.modal-backdrop{position:fixed;inset:0;background:rgba(13,37,54,.56);z-index:90;display:none;align-items:center;justify-content:center;padding:18px}.modal-backdrop.open{display:flex}.modal{width:min(720px,100%);max-height:92vh;overflow:auto;background:var(--paper);border-radius:22px;padding:22px;box-shadow:0 25px 70px rgba(10,31,46,.3)}.modal-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.modal h2{margin:0 0 6px}.icon-btn{border:0;background:#edf1f2;color:var(--ink);width:38px;height:38px;border-radius:50%;font-size:20px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.privacy{font-size:13px;color:var(--muted);padding:14px 0;text-align:center}
+.print-only{display:none}
+@media(max-width:980px){.hero{grid-template-columns:1fr}.grid4{grid-template-columns:repeat(2,1fr)}.student-list{grid-template-columns:repeat(2,1fr)}.appbar-inner{grid-template-columns:1fr}.tabs{justify-content:flex-start}.appbar{position:static}}
+@media(max-width:700px){.wrap{width:min(100% - 18px,1240px)}.hero,.section{padding:17px;border-radius:18px}.grid2,.grid3,.grid4,.level-key,.summary-strip,.student-list{grid-template-columns:1fr}.field.half,.field.third,.field.quarter,.field.two-thirds{grid-column:span 12}.section-head{flex-direction:column}.toolbar .btn{flex:1 1 auto}.status-save{width:100%;margin-left:0}.tabs{padding-bottom:2px}.group-pick{align-items:stretch}.group-pick label{display:none}}
+@media print{
+  body{background:white;font-size:10.5pt}.topline,.appbar,.toolbar,.btn,.privacy,.no-print,.modal-backdrop,.toast{display:none!important}.wrap{width:100%}header{padding:0 0 10px}.hero{box-shadow:none;border-radius:0;grid-template-columns:1fr}.hero-card{display:none}main{padding:0}.panel{display:none!important}.panel.print-target{display:block!important}.section{box-shadow:none;border-radius:0;break-inside:auto;padding:14px;margin:0 0 10px}.table-wrap{overflow:visible}.table-wrap table{min-width:0;font-size:9pt}th{position:static;background:#dfe7ea!important;color:#173e5d!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}input,select,textarea{border:0;padding:0;min-height:0;background:transparent;appearance:none}.print-only{display:block}.student-button:not(.active){display:none}.student-list{grid-template-columns:1fr}.level-key{grid-template-columns:repeat(4,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="topline"></div>
+<div class="wrap">
+  <header>
+    <div class="hero">
+      <div>
+        <div class="kicker">He-Indartuz · DBH1–DBH2 · Matematika eta irakurketa</div>
+        <h1>Ikasleen <span>jarraipena</span></h1>
+        <p class="lead">Taldeak, asteko bi orduak, erabilitako materialak, asistentzia, aurrerapena eta ebidentziak leku bakarrean.</p>
+        <div class="toolbar no-print">
+          <button class="btn" id="newGroupHero">+ Taldea sortu</button>
+          <button class="btn secondary" id="exportJson">Datuen kopia (.json)</button>
+          <button class="btn teal" id="exportExcel">Excel txostena (.xlsx)</button>
+          <label class="btn secondary" for="importJson">Kopia kargatu</label><input id="importJson" type="file" accept="application/json,.json" hidden>
+          <button class="btn secondary" id="printBtn">Inprimatu / PDF</button>
+          <span class="status-save" id="saveStatus">Datuak gailu honetan gordetzen dira</span>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h2>Jarraipen-zikloa</h2>
+        <p>Planifikatu, behatu, ebidentzia jaso eta hurrengo pauso didaktikoa erabaki.</p>
+        <div class="flow"><span>PLANIFIKATU</span><span>LANDU</span><span>BEHATU</span><span>EBALUATU</span><span>DOITU</span></div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<div class="appbar no-print">
+  <div class="wrap appbar-inner">
+    <div class="group-pick"><label for="activeGroup">Talde aktiboa</label><select id="activeGroup"><option value="">— Talderik ez —</option></select><button class="btn small secondary" id="editGroupBtn" disabled>Editatu</button></div>
+    <nav class="tabs" aria-label="Atalak">
+      <button class="tab active" data-tab="home">Laburpena</button>
+      <button class="tab" data-tab="groups">Taldeak</button>
+      <button class="tab" data-tab="planning">Plangintza</button>
+      <button class="tab" data-tab="records">Asistentzia eta aurrerapena</button>
+      <button class="tab" data-tab="followup">Ikaslearen jarraipena</button>
+      <button class="tab" data-tab="reports">Txostenak</button>
+    </nav>
+  </div>
+</div>
+
+<main class="wrap">
+  <section id="panel-home" class="panel active">
+    <div class="section">
+      <div class="section-head"><div class="title-row"><div class="num coral">1</div><div><h2>Abiapuntua</h2><p>Ikastetxearen eta irakaslearen oinarrizko datuak.</p></div></div></div>
+      <div class="form-grid">
+        <div class="field half"><label class="label" for="school">Ikastetxea</label><input id="school" placeholder="Ikastetxearen izena"></div>
+        <div class="field half"><label class="label" for="teacher">He-Indartuzeko irakaslea</label><input id="teacher" placeholder="Izen-abizenak"></div>
+        <div class="field half"><label class="label" for="course">Ikasturtea</label><input id="course" value="2026-2027"></div>
+        <div class="field half"><label class="label" for="generalNotes">Ohar orokorrak</label><input id="generalNotes" placeholder="Aukerakoa"></div>
+      </div>
+    </div>
+    <div class="grid4" id="metrics"></div>
+    <div class="section" style="margin-top:16px">
+      <div class="section-head"><div class="title-row"><div class="num teal-bg">✓</div><div><h2>Egoeraren laburpena</h2><p>Talde aktiboaren konfigurazioa eta bete gabeko urratsak.</p></div></div></div>
+      <div id="homeSummary"></div>
+    </div>
+  </section>
+
+  <section id="panel-groups" class="panel">
+    <div class="section">
+      <div class="section-head"><div class="title-row"><div class="num teal-bg">2</div><div><h2>Taldeak eta ordutegia</h2><p>Talde bakoitzak 6–15 ikasle izan behar ditu eta astean bi ordu.</p></div></div><button class="btn" id="newGroupBtn">+ Talde berria</button></div>
+      <div class="callout yellow"><b>Kontrola:</b> aplikazioak ez du taldea baliozkotzat emango 6 ikasle baino gutxiago edo 15 baino gehiago baditu. Bi saioen iraupen osoak astean 120 minutu bete behar ditu.</div>
+      <div id="groupsContainer"></div>
+    </div>
+  </section>
+
+  <section id="panel-planning" class="panel">
+    <div class="section">
+      <div class="section-head"><div class="title-row"><div class="num sage">3</div><div><h2>Asteko plangintza</h2><p>Aste bakoitzeko bi orduak eta erabiliko den materiala.</p></div></div></div>
+      <div id="planningEmpty" class="empty" hidden><h3>Lehenik, sortu talde bat</h3><p>Plangintza egiteko 6–15 ikasleko talde bat behar da.</p><button class="btn" data-go="groups">Joan taldeetara</button></div>
+      <div id="planningContent">
+        <div class="form-grid no-print">
+          <div class="field third"><label class="label" for="weekStart">Astearen hasiera <span class="req">*</span></label><input id="weekStart" type="date"></div>
+          <div class="field third"><label class="label">Ekintza</label><button class="btn teal" id="createWeek" style="width:100%">Astea sortu / ireki</button></div>
+          <div class="field third"><label class="label" for="weekSelect">Sortutako asteak</label><select id="weekSelect"><option value="">— Hautatu astea —</option></select></div>
+        </div>
+        <div id="weekArea"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-records" class="panel">
+    <div class="section">
+      <div class="section-head"><div class="title-row"><div class="num purple">4</div><div><h2>Asistentzia eta aurrerapena</h2><p>Saio bakoitzean ikaslez ikasle jasotako ebidentzia.</p></div></div></div>
+      <div class="level-key">
+        <div class="level-box l1"><b>1 · Hasierakoa</b>Laguntza sistematikoa behar du.</div>
+        <div class="level-box l2"><b>2 · Egokia</b>Espero den oinarrizko jarduna erakusten du.</div>
+        <div class="level-box l3"><b>3 · Aurreratua</b>Autonomiaz eta azalpenarekin aritzen da.</div>
+        <div class="level-box l4"><b>4 · Bikaina</b>Transferitu, justifikatu edo besteei azaltzen die.</div>
+      </div>
+      <div id="recordsContainer"></div>
+    </div>
+  </section>
+
+  <section id="panel-followup" class="panel">
+    <div class="section">
+      <div class="section-head"><div class="title-row"><div class="num mustard">5</div><div><h2>Ikaslearen jarraipena</h2><p>Datu kuantitatiboak eta hurrengo erabaki didaktikoa batera.</p></div></div></div>
+      <div id="followupContainer"></div>
+    </div>
+  </section>
+
+  <section id="panel-reports" class="panel">
+    <div class="section">
+      <div class="section-head"><div class="title-row"><div class="num ink-bg">6</div><div><h2>Txostenak eta datuen babeskopia</h2><p>Taldeko ikuspegia, ikaslearen fitxa eta datuen esportazioa.</p></div></div></div>
+      <div class="grid3">
+        <div class="card accent-teal"><h3>Excel txosten osoa</h3><p class="muted">Laburpena, taldeak, plangintza, erregistroak eta ikasleen jarraipena bost orri txukunetan. iPhone/iPad gailuetan, «Fitxategietan gorde» aukera irekiko da.</p><button class="btn teal" id="exportExcel2" style="margin-top:12px">Deskargatu Excel</button></div>
+        <div class="card accent-coral"><h3>Taldearen txostena</h3><p class="muted">Pantailako talde aktiboaren datuak PDF gisa gordetzeko.</p><button class="btn" id="printGroup" style="margin-top:12px">Inprimatu taldea</button></div>
+        <div class="card accent-purple"><h3>Beste esportazioak</h3><p class="muted">CSV laburpena edo datu guztien JSON babeskopia.</p><div class="toolbar" style="margin-top:12px"><button class="btn small secondary" id="exportCsv">CSV</button><button class="btn small secondary" id="exportJson2">JSON</button></div></div>
+      </div>
+      <div class="callout green"><b>Pribatutasuna:</b> datuak nabigatzaile honen biltegiratze lokalean gordetzen dira; HTML fitxategiak ez ditu zerbitzari batera bidaltzen. Gailua partekatua bada, erabili ikastetxearen datu-babeserako irizpideen arabera eta egin babeskopia segurua.</div>
+      <div id="reportPreview"></div>
+    </div>
+  </section>
+
+  <p class="privacy">He-Indartuz · Jarraipen pedagogikorako tresna laguntzailea · Datuak automatikoki gordetzen dira gailuan</p>
+</main>
+
+<datalist id="materialCodes">
+  <option value="HI00"><option value="PE001"><option value="IM001"><option value="IM002"><option value="PM001"><option value="TR001"><option value="P001"><option value="IR001"><option value="IR002">
+</datalist>
+
+<div class="modal-backdrop" id="groupModal" role="dialog" aria-modal="true" aria-labelledby="groupModalTitle">
+  <div class="modal">
+    <div class="modal-head"><div><h2 id="groupModalTitle">Talde berria</h2><p class="muted" style="margin:0">Konfiguratu taldea, ikasleak eta asteko bi orduak.</p></div><button class="icon-btn" id="closeGroupModal" aria-label="Itxi">×</button></div>
+    <form id="groupForm">
+      <input type="hidden" id="groupId">
+      <div class="form-grid" style="margin-top:16px">
+        <div class="field half"><label class="label" for="groupName">Taldearen izena <span class="req">*</span></label><input id="groupName" required placeholder="Adib.: MATE-A"></div>
+        <div class="field half"><label class="label" for="groupArea">Arloa <span class="req">*</span></label><select id="groupArea"><option>Matematika</option><option>Irakurketa · Euskara</option><option>Irakurketa · Gaztelania</option></select></div>
+        <div class="field half"><label class="label" for="groupLevel">Maila</label><select id="groupLevel"><option>DBH1</option><option>DBH2</option><option selected>DBH1–DBH2 talde mistoa</option></select></div>
+        <div class="field half"><label class="label" for="groupRoom">Gela / espazioa</label><input id="groupRoom" placeholder="Aukerakoa"></div>
+        <div class="field"><label class="label" for="studentNames">Ikasleak <span class="req">*</span></label><textarea id="studentNames" rows="8" placeholder="Idatzi ikasle bat lerro bakoitzean"></textarea><p class="help">Gutxienez 6 eta gehienez 15. Lerro bakoitzean ikasle bat.</p><p class="error-text" id="studentCountError"></p></div>
+      </div>
+      <h3>Asteko bi orduak</h3>
+      <div class="grid2">
+        <div class="card accent-teal">
+          <h3>1. ordua</h3>
+          <div class="form-grid"><div class="field"><label class="label" for="day1">Eguna</label><select id="day1"></select></div><div class="field half"><label class="label" for="start1">Hasiera</label><input id="start1" type="time" value="15:30"></div><div class="field half"><label class="label" for="end1">Amaiera</label><input id="end1" type="time" value="16:30"></div></div>
+        </div>
+        <div class="card accent-coral">
+          <h3>2. ordua</h3>
+          <div class="form-grid"><div class="field"><label class="label" for="day2">Eguna</label><select id="day2"></select></div><div class="field half"><label class="label" for="start2">Hasiera</label><input id="start2" type="time" value="15:30"></div><div class="field half"><label class="label" for="end2">Amaiera</label><input id="end2" type="time" value="16:30"></div></div>
+        </div>
+      </div>
+      <p class="error-text" id="scheduleError"></p>
+      <div class="modal-actions"><button type="button" class="btn danger" id="deleteGroup" hidden>Ezabatu taldea</button><button type="button" class="btn secondary" id="cancelGroup">Utzi</button><button type="submit" class="btn">Gorde taldea</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="download-help" id="downloadHelp" role="status"><p><b>Deskarga ez bada hasi:</b> erabili eskuzko esteka.</p><a class="btn teal" id="manualDownload" href="#">Excel gorde</a><button id="closeDownloadHelp" aria-label="Itxi">×</button></div>
+
+<script>
+(() => {
+  'use strict';
+  const STORAGE_KEY = 'heindartuz_jarraipena_v1';
+  const DAYS = ['Astelehena','Asteartea','Asteazkena','Osteguna','Ostirala'];
+  const ATTENDANCE = [
+    ['','— Hautatu —'],['present','Bertaratu da'],['late','Berandu'],['justified','Falta justifikatua'],['absent','Falta ez-justifikatua']
+  ];
+  const LEVELS = [
+    ['','— Mailarik ez —'],['1','Hasierakoa'],['2','Egokia'],['3','Aurreratua'],['4','Bikaina']
+  ];
+  const EVIDENCE = ['','Behaketa','Aurkezpena / ahozko azalpena','Proba','Fitxa','Koadernoa','Ekoizpen idatzia','Ataza digitala','Autoebaluazioa','Elkarrizketa','Beste bat'];
+  const FOCUS = {
+    'Matematika':['Ulermena eta adierazpena','Estrategia eta planifikazioa','Prozedura eta kalkulua','Arrazoiketa eta justifikazioa','Transferentzia','Autonomia eta autoerregulazioa'],
+    'reading':['Ulermen literala','Ulermen inferentziala','Ulermen kritikoa','Hiztegia eta esanahia','Irakurketa-estrategiak','Ahozko edo idatzizko laburpena','Autonomia eta autoerregulazioa']
+  };
+
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  let xlsxSharedStringMap = null;
+  const uid = prefix => prefix + '_' + Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-4);
+  const esc = value => String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+  const attr = esc;
+  const defaultState = () => ({
+    version:1,
+    settings:{school:'',teacher:'',course:'2026-2027',generalNotes:''},
+    groups:[],weeks:[],followups:{},activeGroupId:'',activeWeekId:'',activeSessionId:'',activeStudentId:'',activeTab:'home',updatedAt:''
+  });
+  let state = loadState();
+  let saveTimer = null;
+
+  function loadState(){
+    try{
+      const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if(!parsed || !Array.isArray(parsed.groups) || !Array.isArray(parsed.weeks)) return defaultState();
+      return Object.assign(defaultState(), parsed, {settings:Object.assign(defaultState().settings, parsed.settings || {}),followups:parsed.followups || {}});
+    }catch(e){ return defaultState(); }
+  }
+  function saveState(show=true){
+    state.updatedAt = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    if(show){
+      const el=$('#saveStatus'); el.textContent='Gordeta · '+new Date().toLocaleTimeString('eu-ES',{hour:'2-digit',minute:'2-digit'}); el.classList.add('ok');
+      clearTimeout(saveTimer); saveTimer=setTimeout(()=>{el.textContent='Datuak gailu honetan gordetzen dira';el.classList.remove('ok')},1800);
+    }
+  }
+  function toast(message,error=false){
+    const el=$('#toast'); el.textContent=message; el.className='toast show'+(error?' error':''); setTimeout(()=>el.classList.remove('show'),2600);
+  }
+  function activeGroup(){ return state.groups.find(g=>g.id===state.activeGroupId) || null; }
+  function groupWeeks(){ return state.weeks.filter(w=>w.groupId===state.activeGroupId).sort((a,b)=>b.startDate.localeCompare(a.startDate)); }
+  function activeWeek(){ return state.weeks.find(w=>w.id===state.activeWeekId && w.groupId===state.activeGroupId) || groupWeeks()[0] || null; }
+  function activeSession(){ const w=activeWeek(); return w?.sessions.find(s=>s.id===state.activeSessionId) || w?.sessions[0] || null; }
+  function minutes(start,end){
+    if(!start||!end) return 0; const [sh,sm]=start.split(':').map(Number),[eh,em]=end.split(':').map(Number); return Math.max(0,eh*60+em-sh*60-sm);
+  }
+  function formatDate(d){ if(!d) return '—'; return new Date(d+'T12:00:00').toLocaleDateString('eu-ES',{day:'2-digit',month:'2-digit',year:'numeric'}); }
+  function mondayOf(date){
+    const d=new Date((date||new Date().toISOString().slice(0,10))+'T12:00:00'); const day=d.getDay()||7; d.setDate(d.getDate()-day+1); return d.toISOString().slice(0,10);
+  }
+  function dateForDay(monday,dayName){ const idx=Math.max(0,DAYS.indexOf(dayName)); const d=new Date(monday+'T12:00:00'); d.setDate(d.getDate()+idx); return d.toISOString().slice(0,10); }
+  function optionList(items,current){ return items.map(item=>{const v=Array.isArray(item)?item[0]:item,t=Array.isArray(item)?item[1]:item;return `<option value="${attr(v)}" ${String(v)===String(current)?'selected':''}>${esc(t)}</option>`}).join(''); }
+  function focusItems(area){ return area==='Matematika'?FOCUS.Matematika:FOCUS.reading; }
+  function levelLabel(v){ return (LEVELS.find(x=>x[0]===String(v))||['','—'])[1]; }
+
+  function setTab(tab){
+    state.activeTab=tab; $$('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab)); $$('.panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+tab));
+    renderTab(tab); saveState(false); window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function renderTab(tab){
+    if(tab==='home') renderHome(); if(tab==='groups') renderGroups(); if(tab==='planning') renderPlanning(); if(tab==='records') renderRecords(); if(tab==='followup') renderFollowup(); if(tab==='reports') renderReports();
+  }
+  function renderAll(){ renderGroupPicker(); syncSettings(); setTab(state.activeTab||'home'); }
+  function syncSettings(){
+    $('#school').value=state.settings.school||''; $('#teacher').value=state.settings.teacher||''; $('#course').value=state.settings.course||''; $('#generalNotes').value=state.settings.generalNotes||'';
+  }
+  function renderGroupPicker(){
+    const sel=$('#activeGroup'); sel.innerHTML='<option value="">— Talderik ez —</option>'+state.groups.map(g=>`<option value="${g.id}" ${g.id===state.activeGroupId?'selected':''}>${esc(g.name)} · ${esc(g.area)}</option>`).join('');
+    $('#editGroupBtn').disabled=!activeGroup();
+  }
+
+  function attendanceStats(group){
+    let eligible=0,present=0,late=0,absent=0;
+    state.weeks.filter(w=>w.groupId===group.id).forEach(w=>w.sessions.forEach(s=>group.students.forEach(st=>{
+      const a=s.records?.[st.id]?.attendance; if(a){eligible++; if(a==='present')present++; if(a==='late')late++; if(a==='absent')absent++;}
+    })));
+    return {eligible,present,late,absent,rate:eligible?Math.round((present+late)/eligible*100):0};
+  }
+  function assessmentStats(group,studentId=null){
+    const vals=[];
+    state.weeks.filter(w=>w.groupId===group.id).forEach(w=>w.sessions.forEach(s=>{
+      if(studentId){ const v=Number(s.records?.[studentId]?.level); if(v) vals.push(v); }
+      else group.students.forEach(st=>{const v=Number(s.records?.[st.id]?.level);if(v) vals.push(v)});
+    }));
+    return {count:vals.length,average:vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0,last:vals.at(-1)||0};
+  }
+  function renderHome(){
+    const g=activeGroup(), att=g?attendanceStats(g):{rate:0,eligible:0}, ass=g?assessmentStats(g):{count:0,average:0};
+    $('#metrics').innerHTML=[
+      ['accent-teal',state.groups.length,'Talde guztira'],['accent-coral',g?g.students.length:0,'Talde aktiboko ikasleak'],['accent-sage',g?groupWeeks().length:0,'Planifikatutako asteak'],['accent-purple',att.eligible?att.rate+'%':'—','Asistentzia · talde aktiboa']
+    ].map(x=>`<div class="card ${x[0]}"><div class="metric">${x[1]}</div><div class="metric-label">${x[2]}</div></div>`).join('');
+    if(!g){ $('#homeSummary').innerHTML='<div class="empty"><h3>Hasi lehen taldea sortzen</h3><p>Gehitu 6–15 ikasle, arloa eta asteko bi orduak.</p><button class="btn" id="homeCreateGroup">+ Taldea sortu</button></div>'; $('#homeCreateGroup').onclick=()=>openGroupModal(); return; }
+    const totalMin=(g.schedule||[]).reduce((n,s)=>n+minutes(s.start,s.end),0); const checks=[
+      [g.students.length>=6&&g.students.length<=15,`${g.students.length} ikasle · 6–15 bitarteko baldintza`],
+      [(g.schedule||[]).length===2&&totalMin===120,`Asteko ordutegia · ${totalMin} minutu`],
+      [groupWeeks().length>0,`${groupWeeks().length} aste planifikatuta`],
+      [ass.count>0,`${ass.count} aurrerapen-ebaluazio jasota`]
+    ];
+    $('#homeSummary').innerHTML=`<div class="grid2">${checks.map(c=>`<div class="card"><span class="badge ${c[0]?'ok':'warn'}">${c[0]?'✓ Eginda':'! Osatu'}</span><p style="margin:9px 0 0"><b>${esc(c[1])}</b></p></div>`).join('')}</div>`;
+  }
+
+  function renderGroups(){
+    const box=$('#groupsContainer');
+    if(!state.groups.length){box.innerHTML='<div class="empty"><h3>Oraindik ez dago talderik</h3><p>Sortu lehen taldea ikasleak eta ordutegia erregistratzeko.</p><button class="btn" id="emptyCreateGroup">+ Lehen taldea sortu</button></div>';$('#emptyCreateGroup').onclick=()=>openGroupModal();return;}
+    box.innerHTML='<div class="grid2">'+state.groups.map(g=>{
+      const total=(g.schedule||[]).reduce((n,s)=>n+minutes(s.start,s.end),0),valid=g.students.length>=6&&g.students.length<=15&&total===120;
+      return `<article class="card ${g.area==='Matematika'?'accent-teal':'accent-coral'}"><div style="display:flex;justify-content:space-between;gap:10px"><div><span class="badge ${valid?'ok':'bad'}">${valid?'Baliozkoa':'Berrikusi'}</span><h3 style="font-size:21px;margin-top:10px">${esc(g.name)}</h3></div><button class="btn small secondary edit-card" data-id="${g.id}">Editatu</button></div><p><b>${esc(g.area)}</b> · ${esc(g.level)}</p><p class="muted">${g.students.length} ikasle · ${total} min/aste</p><p class="small-text">${(g.schedule||[]).map(s=>`${esc(s.day)} ${esc(s.start)}–${esc(s.end)}`).join(' · ')}</p></article>`;
+    }).join('')+'</div>';
+    $$('.edit-card').forEach(b=>b.onclick=()=>openGroupModal(b.dataset.id));
+  }
+
+  function openGroupModal(id=''){
+    const g=state.groups.find(x=>x.id===id); $('#groupModalTitle').textContent=g?'Taldea editatu':'Talde berria'; $('#groupId').value=g?.id||''; $('#groupName').value=g?.name||''; $('#groupArea').value=g?.area||'Matematika'; $('#groupLevel').value=g?.level||'DBH1–DBH2 talde mistoa'; $('#groupRoom').value=g?.room||''; $('#studentNames').value=(g?.students||[]).map(s=>s.name).join('\n');
+    const sch=g?.schedule||[{day:'Astelehena',start:'15:30',end:'16:30'},{day:'Asteazkena',start:'15:30',end:'16:30'}];
+    ['1','2'].forEach((n,i)=>{$('#day'+n).value=sch[i]?.day||DAYS[i*2];$('#start'+n).value=sch[i]?.start||'15:30';$('#end'+n).value=sch[i]?.end||'16:30'});
+    $('#studentCountError').textContent='';$('#scheduleError').textContent='';$('#deleteGroup').hidden=!g;$('#groupModal').classList.add('open');$('#groupName').focus(); updateStudentCount();
+  }
+  function closeGroupModal(){ $('#groupModal').classList.remove('open'); }
+  function parsedNames(){ return $('#studentNames').value.split(/\n+/).map(x=>x.trim()).filter(Boolean); }
+  function updateStudentCount(){const names=parsedNames();$('#studentCountError').textContent=`${names.length} ikasle${names.length<6?' · gutxienez 6 behar dira':names.length>15?' · gehienez 15 onartzen dira':''}`;}
+  function saveGroupForm(e){
+    e.preventDefault(); const names=parsedNames(),id=$('#groupId').value,old=state.groups.find(g=>g.id===id); let valid=true;
+    if(names.length<6||names.length>15){$('#studentCountError').textContent=`${names.length} ikasle · taldeak 6–15 ikasle izan behar ditu`;valid=false;}
+    const normalized=names.map(n=>n.toLocaleLowerCase('eu')); if(new Set(normalized).size!==names.length){$('#studentCountError').textContent='Ikasle-izen errepikatuak daude.';valid=false;}
+    const schedule=[1,2].map(n=>({day:$('#day'+n).value,start:$('#start'+n).value,end:$('#end'+n).value})); const total=schedule.reduce((n,s)=>n+minutes(s.start,s.end),0);
+    if(total!==120){$('#scheduleError').textContent=`Bi orduen iraupena ${total} minutukoa da; guztira 120 minutu behar dira.`;valid=false;}else $('#scheduleError').textContent='';
+    if(!$('#groupName').value.trim()){valid=false;toast('Taldearen izena behar da.',true)} if(!valid)return;
+    const usedStudentIds=new Set();
+    const students=names.map((name,index)=>{const exact=old?.students.find(s=>!usedStudentIds.has(s.id)&&s.name.toLocaleLowerCase('eu')===name.toLocaleLowerCase('eu'));const samePlace=old?.students[index]&&!usedStudentIds.has(old.students[index].id)?old.students[index]:null;const kept=exact||samePlace;if(kept){usedStudentIds.add(kept.id);return{id:kept.id,name}}return{id:uid('st'),name}});
+    const group={id:id||uid('gr'),name:$('#groupName').value.trim(),area:$('#groupArea').value,level:$('#groupLevel').value,room:$('#groupRoom').value.trim(),students,schedule};
+    if(old){const removed=old.students.map(s=>s.id).filter(studentId=>!students.some(s=>s.id===studentId));removed.forEach(studentId=>{delete state.followups[studentId];state.weeks.filter(w=>w.groupId===old.id).forEach(w=>w.sessions.forEach(s=>{if(s.records)delete s.records[studentId]}))});state.groups[state.groups.indexOf(old)]=group;} else state.groups.push(group);
+    state.activeGroupId=group.id; state.activeStudentId=students[0]?.id||''; saveState(); closeGroupModal(); renderAll(); toast(old?'Taldea eguneratu da.':'Taldea sortu da.');
+  }
+  function deleteGroup(){
+    const id=$('#groupId').value,g=state.groups.find(x=>x.id===id); if(!g||!confirm(`“${g.name}” taldea eta lotutako aste, erregistro eta jarraipen guztiak ezabatu?`))return;
+    const studentIds=g.students.map(s=>s.id); state.groups=state.groups.filter(x=>x.id!==id); state.weeks=state.weeks.filter(w=>w.groupId!==id); studentIds.forEach(id=>delete state.followups[id]); state.activeGroupId=state.groups[0]?.id||'';state.activeWeekId='';state.activeSessionId='';state.activeStudentId='';saveState();closeGroupModal();renderAll();toast('Taldea ezabatu da.');
+  }
+
+  function renderPlanning(){
+    const g=activeGroup(); $('#planningEmpty').hidden=!!g;$('#planningContent').hidden=!g;if(!g)return;
+    const weeks=groupWeeks();const current=activeWeek();if(current){state.activeWeekId=current.id;if(!state.activeSessionId)state.activeSessionId=current.sessions[0]?.id||''}
+    $('#weekStart').value=current?.startDate||mondayOf(); $('#weekSelect').innerHTML='<option value="">— Hautatu astea —</option>'+weeks.map(w=>`<option value="${w.id}" ${w.id===current?.id?'selected':''}>${formatDate(w.startDate)} astea</option>`).join(''); renderWeekArea();
+  }
+  function createOrOpenWeek(){
+    const g=activeGroup(),start=mondayOf($('#weekStart').value); if(!g)return; let w=state.weeks.find(x=>x.groupId===g.id&&x.startDate===start);
+    if(!w){w={id:uid('wk'),groupId:g.id,startDate:start,sessions:(g.schedule||[]).map((slot,i)=>({id:uid('se'),label:`${i+1}. ordua`,date:dateForDay(start,slot.day),day:slot.day,start:slot.start,end:slot.end,code:'',title:'',focus:'',worked:'',notes:'',records:{}}))};state.weeks.push(w);toast('Aste berria sortu da.');}
+    else toast('Aste hori irekita dago.'); state.activeWeekId=w.id;state.activeSessionId=w.sessions[0]?.id||'';saveState();renderPlanning();
+  }
+  function renderWeekArea(){
+    const g=activeGroup(),w=activeWeek(),box=$('#weekArea');if(!w){box.innerHTML='<div class="empty" style="margin-top:16px"><h3>Sortu edo hautatu aste bat</h3><p>Aste horretako bi saioak automatikoki prestatuko dira taldearen ordutegiaren arabera.</p></div>';return;}
+    box.innerHTML=`<div class="section-head" style="margin-top:20px"><div><h2>${formatDate(w.startDate)} astea</h2><p>${esc(g.name)} · ${esc(g.area)}</p></div><button class="btn small danger no-print" id="deleteWeek">Ezabatu astea</button></div>${w.sessions.map((s,i)=>sessionPlanHtml(s,i,g)).join('')}`;
+    w.sessions.forEach(s=>{
+      ['date','code','title','focus','worked','notes'].forEach(field=>{const el=$(`[data-session="${s.id}"][data-field="${field}"]`);if(el)el.oninput=()=>{s[field]=el.value;saveState();};});
+    });
+    $('#deleteWeek').onclick=()=>{if(confirm('Aste hau eta bertako erregistro guztiak ezabatu?')){state.weeks=state.weeks.filter(x=>x.id!==w.id);state.activeWeekId='';state.activeSessionId='';saveState();renderPlanning();toast('Astea ezabatu da.')}};
+  }
+  function sessionPlanHtml(s,i,g){
+    return `<article class="card ${i?'accent-coral':'accent-teal'}" style="margin:13px 0"><h3>${i+1}. ordua · ${esc(s.day)} ${esc(s.start)}–${esc(s.end)}</h3><div class="form-grid"><div class="field quarter"><label class="label">Data</label><input type="date" data-session="${s.id}" data-field="date" value="${attr(s.date)}"></div><div class="field quarter"><label class="label">Materialaren kodea</label><input list="materialCodes" data-session="${s.id}" data-field="code" value="${attr(s.code)}" placeholder="Adib.: P001"></div><div class="field half"><label class="label">Beste material bat / izenburua</label><input data-session="${s.id}" data-field="title" value="${attr(s.title)}" placeholder="Kode propiorik ez badu, idatzi izenburua"></div><div class="field half"><label class="label">Ebaluatuko den alderdia</label><select data-session="${s.id}" data-field="focus"><option value="">— Hautatu —</option>${optionList(focusItems(g.area),s.focus)}<option value="Beste adierazle bat" ${s.focus==='Beste adierazle bat'?'selected':''}>Beste adierazle bat</option></select></div><div class="field half"><label class="label">Zer landu da? <span class="req">*</span></label><textarea data-session="${s.id}" data-field="worked" placeholder="Edukiak, estrategiak, jardueraren maila edo egindako egokitzapenak">${esc(s.worked)}</textarea></div><div class="field"><label class="label">Saioaren oharrak eta hurrengo doikuntza</label><textarea data-session="${s.id}" data-field="notes" placeholder="Zer mantendu, zer aldatu eta hurrengo saioan zer egin">${esc(s.notes)}</textarea></div></div></article>`;
+  }
+
+  function renderRecords(){
+    const g=activeGroup(),weeks=groupWeeks(),box=$('#recordsContainer');
+    if(!g){box.innerHTML='<div class="empty"><h3>Ez dago talde aktiborik</h3><p>Sortu edo hautatu talde bat.</p></div>';return;} if(!weeks.length){box.innerHTML='<div class="empty"><h3>Ez dago asterik planifikatuta</h3><p>Sortu lehen astea, eta gero saio bakoitzeko erregistroa osatu.</p><button class="btn" data-go="planning">Joan plangintzara</button></div>';wireGoButtons();return;}
+    let w=activeWeek();if(!w){w=weeks[0];state.activeWeekId=w.id}let s=activeSession();if(!s){s=w.sessions[0];state.activeSessionId=s.id}
+    box.innerHTML=`<div class="form-grid no-print"><div class="field half"><label class="label">Astea</label><select id="recordsWeek">${weeks.map(x=>`<option value="${x.id}" ${x.id===w.id?'selected':''}>${formatDate(x.startDate)} astea</option>`).join('')}</select></div><div class="field half"><label class="label">Saioa</label><select id="recordsSession">${w.sessions.map((x,i)=>`<option value="${x.id}" ${x.id===s.id?'selected':''}>${i+1}. ordua · ${esc(x.code||x.title||'materiala zehaztu gabe')}</option>`).join('')}</select></div></div><div class="callout ${s.code||s.title?'green':'yellow'}"><b>${esc(s.code||s.title||'Materiala zehaztu gabe')}</b> · ${esc(s.focus||'Ebaluazio-alderdia zehaztu gabe')}<br><span class="small-text">${formatDate(s.date)} · ${esc(s.worked||'Zer landu den oraindik ez da zehaztu.')}</span></div>${recordsTable(g,s)}`;
+    $('#recordsWeek').onchange=e=>{state.activeWeekId=e.target.value;state.activeSessionId=state.weeks.find(x=>x.id===e.target.value)?.sessions[0]?.id||'';saveState(false);renderRecords()}; $('#recordsSession').onchange=e=>{state.activeSessionId=e.target.value;saveState(false);renderRecords()};
+    $$('.record-field').forEach(el=>el.onchange=()=>{s.records=s.records||{};s.records[el.dataset.student]=s.records[el.dataset.student]||{};s.records[el.dataset.student][el.dataset.field]=el.value;saveState();updateRecordCompletion(g,s)});
+    $$('.record-note').forEach(el=>el.oninput=()=>{s.records=s.records||{};s.records[el.dataset.student]=s.records[el.dataset.student]||{};s.records[el.dataset.student].note=el.value;saveState()}); updateRecordCompletion(g,s);
+  }
+  function recordsTable(g,s){
+    s.records=s.records||{};
+    return `<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;margin:13px 0"><span class="badge" id="recordCompletion">0/${g.students.length} osatuta</span><button class="btn small secondary no-print" id="markAllPresent">Denak bertaratu</button></div><div class="table-wrap"><table><thead><tr><th>Ikaslea</th><th>Asistentzia</th><th>Aurrerapen-maila</th><th>Ebidentzia</th><th>Ohar laburra / froga</th></tr></thead><tbody>${g.students.map(st=>{const r=s.records[st.id]||{};return `<tr><td class="student-name">${esc(st.name)}</td><td><select class="record-field" data-student="${st.id}" data-field="attendance">${optionList(ATTENDANCE,r.attendance)}</select></td><td><select class="record-field" data-student="${st.id}" data-field="level">${optionList(LEVELS,r.level)}</select></td><td><select class="record-field" data-student="${st.id}" data-field="evidence">${optionList(EVIDENCE,r.evidence)}</select></td><td><input class="record-note" data-student="${st.id}" value="${attr(r.note||'')}" placeholder="Zer ikusi edo jaso da?"></td></tr>`}).join('')}</tbody></table></div>`;
+  }
+  function updateRecordCompletion(g,s){const done=g.students.filter(st=>s.records?.[st.id]?.attendance&&s.records?.[st.id]?.level&&s.records?.[st.id]?.evidence).length;const el=$('#recordCompletion');if(el){el.textContent=`${done}/${g.students.length} osatuta`;el.className='badge '+(done===g.students.length?'ok':'warn')}const all=$('#markAllPresent');if(all)all.onclick=()=>{g.students.forEach(st=>{s.records[st.id]=s.records[st.id]||{};s.records[st.id].attendance='present'});saveState();renderRecords();toast('Ikasle guztiak bertaratu gisa markatu dira.')}}
+
+  function studentAttendance(g,studentId){let total=0,attended=0,absences=0;state.weeks.filter(w=>w.groupId===g.id).forEach(w=>w.sessions.forEach(s=>{const a=s.records?.[studentId]?.attendance;if(a){total++;if(a==='present'||a==='late')attended++;if(a==='absent')absences++;}}));return{total,attended,absences,rate:total?Math.round(attended/total*100):0};}
+  function renderFollowup(){
+    const g=activeGroup(),box=$('#followupContainer');if(!g){box.innerHTML='<div class="empty"><h3>Ez dago talde aktiborik</h3><p>Hautatu talde bat ikasleen jarraipena egiteko.</p></div>';return;}
+    let student=g.students.find(s=>s.id===state.activeStudentId)||g.students[0];state.activeStudentId=student?.id||'';if(!student)return;
+    box.innerHTML=`<div class="student-list no-print">${g.students.map(st=>{const a=studentAttendance(g,st.id);return `<button class="student-button ${st.id===student.id?'active':''}" data-student-pick="${st.id}">${esc(st.name)}<small>${a.total?a.rate+'% asistentzia':'Oraindik daturik ez'}</small></button>`}).join('')}</div><div id="studentDetail" style="margin-top:18px">${studentDetailHtml(g,student)}</div>`;
+    $$('[data-student-pick]').forEach(b=>b.onclick=()=>{state.activeStudentId=b.dataset.studentPick;saveState(false);renderFollowup()}); wireFollowupInputs(student.id);
+  }
+  function studentDetailHtml(g,student){
+    const a=studentAttendance(g,student.id),as=assessmentStats(g,student.id),f=state.followups[student.id]||{}; const rows=[];
+    state.weeks.filter(w=>w.groupId===g.id).sort((x,y)=>x.startDate.localeCompare(y.startDate)).forEach(w=>w.sessions.forEach(s=>{const r=s.records?.[student.id];if(r?.attendance||r?.level)rows.push({date:s.date,material:s.code||s.title||'—',focus:s.focus||'—',attendance:(ATTENDANCE.find(x=>x[0]===r.attendance)||['','—'])[1],level:levelLabel(r.level),evidence:r.evidence||'—',note:r.note||''})}));
+    return `<div class="section-head"><div><h2>${esc(student.name)}</h2><p>${esc(g.name)} · ${esc(g.area)}</p></div><button class="btn secondary no-print" id="printStudent">Ikaslearen fitxa inprimatu</button></div><div class="summary-strip"><div class="summary-item"><b>${a.total?a.rate+'%':'—'}</b><span>Asistentzia</span></div><div class="summary-item"><b>${a.absences}</b><span>Falta ez-justifikatu</span></div><div class="summary-item"><b>${as.count}</b><span>Ebaluazio kopurua</span></div><div class="summary-item"><b>${as.average?as.average.toFixed(1)+'/4':'—'}</b><span>Batez besteko maila</span></div></div><div class="form-grid"><div class="field half"><label class="label">Indarguneak eta aurrerapenak</label><textarea class="follow-field" data-field="strengths" placeholder="Zer egiten du gero eta autonomia handiagoz?">${esc(f.strengths||'')}</textarea></div><div class="field half"><label class="label">Oraingo beharrak / oztopoak</label><textarea class="follow-field" data-field="needs" placeholder="Non trabatzen da eta zer laguntza behar du?">${esc(f.needs||'')}</textarea></div><div class="field half"><label class="label">Hurrengo pauso didaktikoa</label><textarea class="follow-field" data-field="nextSteps" placeholder="Hurrengo asteetarako helburu zehatza eta laguntza">${esc(f.nextSteps||'')}</textarea></div><div class="field half"><label class="label">Ikaslearen ahotsa eta konpromisoa</label><textarea class="follow-field" data-field="studentVoice" placeholder="Ikasleak zer identifikatu du? Zer egingo du?">${esc(f.studentVoice||'')}</textarea></div><div class="field two-thirds"><label class="label">Familiarekin / tutorearekin partekatzeko oharrak</label><textarea class="follow-field" data-field="familyNotes" placeholder="Aukerakoa; datu pertsonal sentikorrik gabe">${esc(f.familyNotes||'')}</textarea></div><div class="field third"><label class="label">Azken berrikuspen-data</label><input type="date" class="follow-field" data-field="lastReview" value="${attr(f.lastReview||'')}"></div></div><h3 style="margin-top:22px">Bilakaeraren erregistroa</h3>${rows.length?`<div class="table-wrap"><table><thead><tr><th>Data</th><th>Materiala</th><th>Ebaluatutako alderdia</th><th>Asistentzia</th><th>Maila</th><th>Ebidentzia eta oharra</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${formatDate(r.date)}</td><td><b>${esc(r.material)}</b></td><td>${esc(r.focus)}</td><td>${esc(r.attendance)}</td><td>${esc(r.level)}</td><td>${esc(r.evidence)}${r.note?'<br><span class="muted">'+esc(r.note)+'</span>':''}</td></tr>`).join('')}</tbody></table></div>`:'<div class="callout yellow">Ikasle honentzat oraindik ez da saio-erregistrorik jaso.</div>'}`;
+  }
+  function wireFollowupInputs(studentId){
+    $$('.follow-field').forEach(el=>el.oninput=()=>{state.followups[studentId]=state.followups[studentId]||{};state.followups[studentId][el.dataset.field]=el.value;saveState()}); const p=$('#printStudent');if(p)p.onclick=()=>printPanel('followup');
+  }
+
+  function renderReports(){
+    const g=activeGroup(),box=$('#reportPreview');if(!g){box.innerHTML='<div class="empty" style="margin-top:16px"><h3>Ez dago talde aktiborik</h3><p>Hautatu talde bat txostenaren aurrebista ikusteko.</p></div>';return;}
+    const att=attendanceStats(g),ass=assessmentStats(g);box.innerHTML=`<h3 style="margin-top:22px">Taldearen laburpena · ${esc(g.name)}</h3><div class="summary-strip"><div class="summary-item"><b>${g.students.length}</b><span>Ikasle</span></div><div class="summary-item"><b>${groupWeeks().length}</b><span>Aste</span></div><div class="summary-item"><b>${att.eligible?att.rate+'%':'—'}</b><span>Asistentzia</span></div><div class="summary-item"><b>${ass.average?ass.average.toFixed(1)+'/4':'—'}</b><span>Batez besteko maila</span></div></div><div class="table-wrap"><table><thead><tr><th>Ikaslea</th><th>Asistentzia</th><th>Falta ez-just.</th><th>Ebaluazioak</th><th>Batez besteko maila</th><th>Hurrengo pausoa</th></tr></thead><tbody>${g.students.map(st=>{const a=studentAttendance(g,st.id),s=assessmentStats(g,st.id),f=state.followups[st.id]||{};return `<tr><td class="student-name">${esc(st.name)}</td><td>${a.total?a.rate+'%':'—'}</td><td>${a.absences}</td><td>${s.count}</td><td>${s.average?s.average.toFixed(1)+'/4':'—'}</td><td>${esc(f.nextSteps||'—')}</td></tr>`}).join('')}</tbody></table></div>`;
+  }
+
+  function xmlEsc(value){return String(value??'').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[ch]||''));}
+  function colLetter(n){let s='';while(n>0){n--;s=String.fromCharCode(65+n%26)+s;n=Math.floor(n/26)}return s;}
+  function excelSerial(iso){if(!iso)return null;const t=Date.parse(iso+'T00:00:00Z');return Number.isFinite(t)?Math.floor(t/86400000)+25569:null;}
+  function xCell(value,row,col,style=0,type='auto'){
+    const ref=colLetter(col)+row;
+    if(value===null||value===undefined||value==='')return `<c r="${ref}" s="${style}"/>`;
+    if(type==='date'){const serial=excelSerial(value);return serial?`<c r="${ref}" s="5"><v>${serial}</v></c>`:`<c r="${ref}" s="${style}"/>`;}
+    if(type==='number'||typeof value==='number')return `<c r="${ref}" s="${style}"><v>${Number(value)}</v></c>`;
+    const text=String(value);if(xlsxSharedStringMap&&xlsxSharedStringMap.has(text))return `<c r="${ref}" s="${style}" t="s"><v>${xlsxSharedStringMap.get(text)}</v></c>`;
+    return `<c r="${ref}" s="${style}" t="inlineStr"><is><t xml:space="preserve">${xmlEsc(text)}</t></is></c>`;
+  }
+  function xCellFrom(value,row,col){
+    if(value&&typeof value==='object'&&!Array.isArray(value))return xCell(value.v,row,col,value.s??0,value.t||'auto');
+    return xCell(value,row,col,4,'auto');
+  }
+  function sheetXml(config){
+    const headers=config.headers,rows=config.rows,last=colLetter(headers.length),headerRow=4,dataStart=5,dataEnd=Math.max(headerRow,rows.length+4);
+    const cols=(config.widths||headers.map(()=>18)).map((w,i)=>`<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join('');
+    const titleRow=`<row r="1" ht="27" customHeight="1">${xCell(config.title,1,1,1)}</row>`;
+    const subtitleRow=`<row r="2" ht="21" customHeight="1">${xCell(config.subtitle||'',2,1,2)}</row>`;
+    const headerXml=`<row r="${headerRow}" ht="28" customHeight="1">${headers.map((h,i)=>xCell(h,headerRow,i+1,3)).join('')}</row>`;
+    const dataXml=rows.map((r,ri)=>`<row r="${ri+dataStart}" ht="${config.rowHeight||24}" customHeight="1">${r.map((v,ci)=>xCellFrom(v,ri+dataStart,ci+1)).join('')}</row>`).join('');
+    return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+<sheetPr><tabColor rgb="${config.tabColor||'FF4F98A4'}"/></sheetPr>
+<dimension ref="A1:${last}${dataEnd}"/>
+<sheetViews><sheetView workbookViewId="0" showGridLines="0"><pane xSplit="1" ySplit="4" topLeftCell="B5" activePane="bottomRight" state="frozen"/><selection pane="bottomRight" activeCell="B5" sqref="B5"/></sheetView></sheetViews>
+<sheetFormatPr defaultRowHeight="18"/><cols>${cols}</cols><sheetData>${titleRow}${subtitleRow}<row r="3" ht="8" customHeight="1"/>${headerXml}${dataXml}</sheetData>
+<mergeCells count="2"><mergeCell ref="A1:${last}1"/><mergeCell ref="A2:${last}2"/></mergeCells>
+<autoFilter ref="A4:${last}${dataEnd}"/><pageMargins left="0.35" right="0.35" top="0.55" bottom="0.55" header="0.2" footer="0.2"/><pageSetup orientation="landscape" fitToWidth="1" fitToHeight="0"/>
+</worksheet>`;
+  }
+  function stylesXml(){return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+<numFmts count="3"><numFmt numFmtId="164" formatCode="dd/mm/yyyy"/><numFmt numFmtId="165" formatCode="0%"/><numFmt numFmtId="166" formatCode="0.0"/></numFmts>
+<fonts count="3"><font><sz val="10"/><name val="Arial"/><color rgb="FF25343F"/></font><font><b/><sz val="15"/><name val="Arial"/><color rgb="FFFFFFFF"/></font><font><b/><sz val="10"/><name val="Arial"/><color rgb="FFFFFFFF"/></font></fonts>
+<fills count="9"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF173E5D"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FF4F98A4"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFF6DED8"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFFFF1C9"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFDDEFF2"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFEAE3F4"/><bgColor indexed="64"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFDDEFE5"/><bgColor indexed="64"/></patternFill></fill></fills>
+<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FFD9DFDF"/></left><right style="thin"><color rgb="FFD9DFDF"/></right><top style="thin"><color rgb="FFD9DFDF"/></top><bottom style="thin"><color rgb="FFD9DFDF"/></bottom><diagonal/></border></borders>
+<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>
+<cellXfs count="15">
+<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="center"/></xf>
+<xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFill="1" applyFont="1" applyAlignment="1"><alignment vertical="center"/></xf>
+<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="center"/><protection locked="1"/></xf>
+<xf numFmtId="0" fontId="2" fillId="3" borderId="1" xfId="0" applyFill="1" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>
+<xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>
+<xf numFmtId="164" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="165" fontId="0" fillId="8" borderId="1" xfId="0" applyNumberFormat="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="166" fontId="0" fillId="0" borderId="1" xfId="0" applyNumberFormat="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="0" fontId="0" fillId="4" borderId="1" xfId="0" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="0" fontId="0" fillId="5" borderId="1" xfId="0" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="0" fontId="0" fillId="6" borderId="1" xfId="0" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="0" fontId="0" fillId="7" borderId="1" xfId="0" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
+<xf numFmtId="0" fontId="0" fillId="8" borderId="1" xfId="0" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>
+<xf numFmtId="0" fontId="0" fillId="3" borderId="1" xfId="0" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>
+</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>
+</styleSheet>`;}
+  function workbookSheets(){
+    const school=state.settings.school||'Ikastetxea zehaztu gabe',course=state.settings.course||'Ikasturtea zehaztu gabe',teacher=state.settings.teacher||'Irakaslea zehaztu gabe';
+    const subtitle=`${school} · ${course} · ${teacher}`;
+    const summaryRows=[];
+    state.groups.forEach(g=>g.students.forEach(st=>{const a=studentAttendance(g,st.id),s=assessmentStats(g,st.id),f=state.followups[st.id]||{};summaryRows.push([g.name,g.area,st.name,{v:a.total?a.rate/100:'',s:a.total?7:6,t:a.total?'number':'auto'},{v:a.absences,s:6,t:'number'},{v:s.count,s:6,t:'number'},{v:s.average?Number(s.average.toFixed(1)):'',s:8,t:s.average?'number':'auto'},levelLabel(s.last),{v:f.nextSteps||'',s:13}])}));
+    const groupRows=[];state.groups.forEach(g=>{const total=(g.schedule||[]).reduce((n,s)=>n+minutes(s.start,s.end),0);groupRows.push([g.name,g.area,g.level,g.room||'',{v:g.students.length,s:6,t:'number'},g.schedule?.[0]?.day||'',`${g.schedule?.[0]?.start||''}–${g.schedule?.[0]?.end||''}`,g.schedule?.[1]?.day||'',`${g.schedule?.[1]?.start||''}–${g.schedule?.[1]?.end||''}`,{v:total,s:6,t:'number'}])});
+    const planningRows=[];state.weeks.slice().sort((a,b)=>a.startDate.localeCompare(b.startDate)).forEach(w=>{const g=state.groups.find(x=>x.id===w.groupId);w.sessions.forEach((s,i)=>planningRows.push([g?.name||'',g?.area||'',{v:w.startDate,t:'date'},`${i+1}. ordua`,{v:s.date,t:'date'},s.day,`${s.start}–${s.end}`,s.code||'',s.title||'',s.focus||'',{v:s.worked||'',s:13},{v:s.notes||'',s:13}]))});
+    const recordRows=[];state.weeks.slice().sort((a,b)=>a.startDate.localeCompare(b.startDate)).forEach(w=>{const g=state.groups.find(x=>x.id===w.groupId);if(!g)return;w.sessions.forEach(s=>g.students.forEach(st=>{const r=s.records?.[st.id];if(!r?.attendance&&!r?.level&&!r?.evidence&&!r?.note)return;const levelStyle=r?.level?8+Number(r.level):6;recordRows.push([g.name,g.area,st.name,{v:s.date,t:'date'},s.code||s.title||'',s.focus||'',(ATTENDANCE.find(x=>x[0]===r.attendance)||['',''])[1],{v:levelLabel(r.level),s:levelStyle},r.evidence||'',{v:r.note||'',s:13}])}))});
+    const followRows=[];state.groups.forEach(g=>g.students.forEach(st=>{const a=studentAttendance(g,st.id),s=assessmentStats(g,st.id),f=state.followups[st.id]||{};followRows.push([g.name,g.area,st.name,{v:a.total?a.rate/100:'',s:a.total?7:6,t:a.total?'number':'auto'},{v:a.absences,s:6,t:'number'},{v:s.count,s:6,t:'number'},{v:s.average?Number(s.average.toFixed(1)):'',s:8,t:s.average?'number':'auto'},{v:f.strengths||'',s:13},{v:f.needs||'',s:13},{v:f.nextSteps||'',s:13},{v:f.studentVoice||'',s:13},{v:f.familyNotes||'',s:13},{v:f.lastReview||'',t:'date'}])}));
+    return [
+      {name:'Laburpena',title:'He-Indartuz · Ikasleen laburpena',subtitle,tabColor:'FF173E5D',headers:['Taldea','Arloa','Ikaslea','Asistentzia','Falta ez-just.','Ebaluazioak','Batez besteko maila','Azken maila','Hurrengo pausoa'],rows:summaryRows,widths:[16,22,24,14,14,13,18,16,38],rowHeight:31},
+      {name:'Taldeak',title:'He-Indartuz · Taldeak eta ordutegia',subtitle,tabColor:'FF4F98A4',headers:['Taldea','Arloa','Maila','Gela','Ikasleak','1. eguna','1. ordutegia','2. eguna','2. ordutegia','Min/aste'],rows:groupRows,widths:[16,22,22,15,11,15,15,15,15,12]},
+      {name:'Plangintza',title:'He-Indartuz · Asteko plangintza',subtitle,tabColor:'FF70A889',headers:['Taldea','Arloa','Astearen hasiera','Saioa','Data','Eguna','Ordutegia','Kodea','Materiala / izenburua','Ebaluatutako alderdia','Zer landu da?','Oharrak eta doikuntza'],rows:planningRows,widths:[15,20,16,11,13,14,15,12,25,28,42,42],rowHeight:42},
+      {name:'Erregistroak',title:'He-Indartuz · Asistentzia eta aurrerapena',subtitle,tabColor:'FF8B72B5',headers:['Taldea','Arloa','Ikaslea','Data','Materiala','Ebaluatutako alderdia','Asistentzia','Aurrerapen-maila','Ebidentzia','Oharra / froga'],rows:recordRows,widths:[15,20,22,13,15,28,20,20,24,42],rowHeight:32},
+      {name:'Ikasleen jarraipena',title:'He-Indartuz · Ikasleen azken jarraipena',subtitle,tabColor:'FFE7B94A',headers:['Taldea','Arloa','Ikaslea','Asistentzia','Falta ez-just.','Ebaluazioak','Batez besteko maila','Indarguneak','Beharrak / oztopoak','Hurrengo pauso didaktikoa','Ikaslearen ahotsa','Familia / tutorea','Azken berrikuspena'],rows:followRows,widths:[15,20,22,14,14,13,18,34,34,38,34,34,18],rowHeight:45}
+    ];
+  }
+  function crc32(bytes){
+    let crc=0xFFFFFFFF;for(const b of bytes){crc^=b;for(let k=0;k<8;k++)crc=(crc>>>1)^((crc&1)?0xEDB88320:0)}return(crc^0xFFFFFFFF)>>>0;
+  }
+  function collectSharedStrings(sheets){
+    const unique=[],map=new Map();let count=0;const add=value=>{if(value===null||value===undefined||value==='')return;const text=String(value);count++;if(!map.has(text)){map.set(text,unique.length);unique.push(text)}};
+    sheets.forEach(sheet=>{add(sheet.title);add(sheet.subtitle);sheet.headers.forEach(add);sheet.rows.forEach(row=>row.forEach(cell=>{if(cell&&typeof cell==='object'&&!Array.isArray(cell)){if(cell.t!=='date'&&cell.t!=='number')add(cell.v)}else if(typeof cell!=='number')add(cell)}))});return{unique,map,count};
+  }
+  function sharedStringsXml(shared){return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="${shared.count}" uniqueCount="${shared.unique.length}">${shared.unique.map(value=>`<si><t xml:space="preserve">${xmlEsc(value)}</t></si>`).join('')}</sst>`;}
+  function zipStore(files){
+    const enc=new TextEncoder(),locals=[],centrals=[];let offset=0;const u16=n=>[n&255,(n>>>8)&255],u32=n=>[n&255,(n>>>8)&255,(n>>>16)&255,(n>>>24)&255],dosDate=((2026-1980)<<9)|(1<<5)|1;
+    for(const f of files){const name=enc.encode(f.name),data=typeof f.data==='string'?enc.encode(f.data):f.data,crc=crc32(data);const local=new Uint8Array([80,75,3,4,...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(dosDate),...u32(crc),...u32(data.length),...u32(data.length),...u16(name.length),...u16(0),...name,...data]);locals.push(local);const central=new Uint8Array([80,75,1,2,...u16(20),...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(dosDate),...u32(crc),...u32(data.length),...u32(data.length),...u16(name.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(offset),...name]);centrals.push(central);offset+=local.length;}
+    const centralSize=centrals.reduce((n,x)=>n+x.length,0),end=new Uint8Array([80,75,5,6,...u16(0),...u16(0),...u16(files.length),...u16(files.length),...u32(centralSize),...u32(offset),...u16(0)]),size=offset+centralSize+end.length,out=new Uint8Array(size);let p=0;[...locals,...centrals,end].forEach(a=>{out.set(a,p);p+=a.length});return out;
+  }
+  function buildXlsxBlob(preparedSheets=null){
+    const sheets=preparedSheets||workbookSheets(),files=[],shared=collectSharedStrings(sheets);xlsxSharedStringMap=shared.map;
+    const overrides=sheets.map((_,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('');
+    files.push({name:'[Content_Types].xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/><Override PartName="/xl/sharedStrings.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"/>${overrides}<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/><Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/></Types>`});
+    files.push({name:'_rels/.rels',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/></Relationships>`});
+    files.push({name:'docProps/core.xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>He-Indartuz · Ikasleen jarraipena</dc:title><dc:creator>${xmlEsc(state.settings.teacher||'He-Indartuz')}</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">${new Date().toISOString()}</dcterms:created></cp:coreProperties>`});
+    files.push({name:'docProps/app.xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><Application>He-Indartuz jarraipena</Application><DocSecurity>0</DocSecurity><ScaleCrop>false</ScaleCrop><HeadingPairs><vt:vector size="2" baseType="variant"><vt:variant><vt:lpstr>Worksheets</vt:lpstr></vt:variant><vt:variant><vt:i4>${sheets.length}</vt:i4></vt:variant></vt:vector></HeadingPairs><TitlesOfParts><vt:vector size="${sheets.length}" baseType="lpstr">${sheets.map(s=>`<vt:lpstr>${xmlEsc(s.name)}</vt:lpstr>`).join('')}</vt:vector></TitlesOfParts></Properties>`});
+    files.push({name:'xl/workbook.xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView activeTab="0"/></bookViews><sheets>${sheets.map((s,i)=>`<sheet name="${xmlEsc(s.name)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join('')}</sheets><calcPr calcId="191029" fullCalcOnLoad="1"/></workbook>`});
+    files.push({name:'xl/_rels/workbook.xml.rels',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map((_,i)=>`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join('')}<Relationship Id="rId${sheets.length+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rId${sheets.length+2}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings" Target="sharedStrings.xml"/></Relationships>`});
+    files.push({name:'xl/styles.xml',data:stylesXml()});files.push({name:'xl/sharedStrings.xml',data:sharedStringsXml(shared)});sheets.forEach((s,i)=>files.push({name:`xl/worksheets/sheet${i+1}.xml`,data:sheetXml(s)}));
+    return new Blob([zipStore(files)],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  }
+  function mobileAppleDevice(){return /iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);}
+  function showManualDownload(url,name){
+    const box=$('#downloadHelp'),link=$('#manualDownload');link.href=url;link.download=name;link.target='_blank';link.rel='noopener';box.classList.add('show');
+  }
+  async function downloadBlob(name,blob,options={}){
+    const shareOnApple=options.shareOnApple===true;
+    if(shareOnApple&&mobileAppleDevice()&&typeof File==='function'&&navigator.share&&navigator.canShare){
+      try{const file=new File([blob],name,{type:blob.type||'application/octet-stream'});if(navigator.canShare({files:[file]})){await navigator.share({files:[file],title:name});return'shared';}}catch(error){if(error?.name==='AbortError')return'cancelled';}
+    }
+    if(typeof URL!=='undefined'&&URL.createObjectURL){
+      const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.rel='noopener';a.style.display='none';document.body.appendChild(a);a.click();a.remove();showManualDownload(url,name);setTimeout(()=>{URL.revokeObjectURL(url);$('#downloadHelp')?.classList.remove('show')},300000);return'download';
+    }
+    return await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onerror=()=>reject(reader.error);reader.onload=()=>{const a=document.createElement('a');a.href=reader.result;a.download=name;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();resolve('download')};reader.readAsDataURL(blob)});
+  }
+  async function exportExcel(){
+    if(!state.groups.length){toast('Excel txostena sortzeko, gutxienez talde bat behar da.',true);return;}
+    if($('#groupModal').classList.contains('open')){toast('Lehenengo, gorde edo itxi taldearen edizioa.',true);return;}
+    try{document.activeElement?.blur();saveState(false);const sheets=workbookSheets(),students=sheets[0].rows.length,sessions=sheets[2].rows.length,records=sheets[3].rows.length;if(!students){toast('Ez dago Excelera esportatzeko ikaslerik.',true);return;}const course=(state.settings.course||'ikasturtea').replace(/[^\w-]+/g,'_'),name=`HeIndartuz_jarraipena_${course}.xlsx`;toast(`Excel prestatzen: ${state.groups.length} talde · ${students} ikasle · ${sessions} saio · ${records} erregistro`);const result=await downloadBlob(name,buildXlsxBlob(sheets),{shareOnApple:true});if(result==='shared')toast('Excel prest dago: aukeratu «Fitxategietan gorde».');else if(result==='cancelled')toast('Excel gordetzea bertan behera utzi da.');else toast(`Excel prest: ${students} ikasle eta ${records} erregistro.`);}catch(error){console.error(error);toast('Ezin izan da Excel deskargatu. Saiatu berriro edo erabili JSON babeskopia.',true);}
+  }
+  function download(name,content,type){downloadBlob(name,new Blob([content],{type})).catch(()=>toast('Ezin izan da fitxategia deskargatu.',true))}
+  function exportJSON(){const course=(state.settings.course||'ikasturtea').replace(/[^\w-]+/g,'_');download(`HeIndartuz_jarraipena_${course}.json`,JSON.stringify(state,null,2),'application/json');toast('Babeskopia deskargatu da.');}
+  function importJSON(file){
+    if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const data=JSON.parse(reader.result);if(!data||!Array.isArray(data.groups)||!Array.isArray(data.weeks))throw new Error();if(!confirm('Uneko datuak ordezkatu eta kopia hau kargatu?'))return;state=Object.assign(defaultState(),data);saveState();renderAll();toast('Babeskopia kargatu da.')}catch(e){toast('Ezin izan da fitxategia kargatu: formatua ez da baliozkoa.',true)}};reader.readAsText(file);
+  }
+  function exportCSV(){
+    const g=activeGroup();if(!g){toast('Hautatu talde bat lehenik.',true);return;} const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';const rows=[['Ikaslea','Taldea','Arloa','Asistentzia %','Falta ez-justifikatuak','Ebaluazio kopurua','Batez besteko maila','Indarguneak','Beharrak','Hurrengo pausoa']];g.students.forEach(st=>{const a=studentAttendance(g,st.id),s=assessmentStats(g,st.id),f=state.followups[st.id]||{};rows.push([st.name,g.name,g.area,a.total?a.rate:'',a.absences,s.count,s.average?s.average.toFixed(2):'',f.strengths||'',f.needs||'',f.nextSteps||''])});download(`HeIndartuz_${g.name.replace(/[^\w-]+/g,'_')}_laburpena.csv`,'\ufeff'+rows.map(r=>r.map(q).join(';')).join('\n'),'text/csv;charset=utf-8');toast('CSV laburpena deskargatu da.');
+  }
+  function printPanel(tab){const p=$('#panel-'+tab);p.classList.add('print-target');window.print();setTimeout(()=>p.classList.remove('print-target'),300)}
+  function wireGoButtons(){$$('[data-go]').forEach(b=>b.onclick=()=>setTab(b.dataset.go));}
+
+  function init(){
+    $('#day1').innerHTML=optionList(DAYS,'Astelehena');$('#day2').innerHTML=optionList(DAYS,'Asteazkena');
+    $$('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+    $('#activeGroup').onchange=e=>{state.activeGroupId=e.target.value;state.activeWeekId='';state.activeSessionId='';state.activeStudentId=activeGroup()?.students[0]?.id||'';saveState(false);renderAll()};
+    ['school','teacher','course','generalNotes'].forEach(id=>$('#'+id).oninput=e=>{state.settings[id]=e.target.value;saveState()});
+    $('#newGroupHero').onclick=$('#newGroupBtn').onclick=()=>openGroupModal();$('#editGroupBtn').onclick=()=>openGroupModal(state.activeGroupId);$('#closeGroupModal').onclick=$('#cancelGroup').onclick=closeGroupModal;$('#groupModal').onclick=e=>{if(e.target.id==='groupModal')closeGroupModal()};$('#groupForm').onsubmit=saveGroupForm;$('#studentNames').oninput=updateStudentCount;$('#deleteGroup').onclick=deleteGroup;
+    $('#createWeek').onclick=createOrOpenWeek;$('#weekSelect').onchange=e=>{state.activeWeekId=e.target.value;state.activeSessionId=activeWeek()?.sessions[0]?.id||'';saveState(false);renderPlanning()};
+    $('#exportJson').onclick=$('#exportJson2').onclick=exportJSON;$('#exportExcel').onclick=$('#exportExcel2').onclick=exportExcel;$('#importJson').onchange=e=>importJSON(e.target.files[0]);$('#exportCsv').onclick=exportCSV;$('#printBtn').onclick=()=>printPanel(state.activeTab||'home');$('#printGroup').onclick=()=>{renderReports();printPanel('reports')};
+    $('#closeDownloadHelp').onclick=()=>$('#downloadHelp').classList.remove('show');$('#manualDownload').onclick=()=>setTimeout(()=>$('#downloadHelp').classList.remove('show'),600);
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeGroupModal()}); wireGoButtons();renderAll();
+  }
+  init();
+})();
+</script>
+</body>
+</html>
